@@ -26,7 +26,7 @@ export function Home() {
   useEffect(() => {
     async function fetchCoffees() {
       const response = await api('/coffees');
-      setCoffees(response.data);
+      setCoffees((response.data));
 
       console.log({coffees: response.data});
     }
@@ -77,6 +77,15 @@ export function Home() {
       }),
     )
     
+  }
+
+  function filtro(value: string){
+    coffees.map((coffee) => {
+      if (coffee.tags[0] == value){
+        console.log(value)
+        return coffee
+      }
+    })
   }
 
   return (
@@ -147,21 +156,21 @@ export function Home() {
         <h2>Nossos cafés</h2>
         <Navbar>
           <Radio
-            onClick={() => {}}
+            onClick={() => {filtro("tradicional")}}
             isSelected={false}
             value="tradicional"
           >
             <span>Tradicional</span>
           </Radio>
           <Radio
-            onClick={() => {}}
+            onClick={() => {filtro("gelado")}}
             isSelected={false}
             value="gelado"
           >
             <span>Gelado</span>
           </Radio>
           <Radio
-            onClick={() => {}}
+            onClick={() => {filtro("com leite")}}
             isSelected={false}
             value="com leite"
           >
@@ -171,7 +180,7 @@ export function Home() {
 
 
         <div>
-          {coffees.map((coffee) => (
+          {coffees.sort().map((coffee) => (
             <CoffeeCard
               key={coffee.id}
               coffee={coffee}
